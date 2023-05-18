@@ -19,6 +19,7 @@ import 'package:http_methods/http_methods.dart';
 import 'package:meta/meta.dart' show sealed;
 import 'package:shelf/shelf.dart';
 
+import 'route.dart';
 import 'router_entry.dart' show RouterEntry;
 
 /// Get a URL parameter captured by the [Router].
@@ -112,13 +113,17 @@ final _removeBody = createMiddleware(responseHandler: (r) {
 class Router {
   final List<RouterEntry> _routes = [];
   final Handler _notFoundHandler;
+  final RouteHandler? _routeHandler;
 
   /// Creates a new [Router] routing requests to handlers.
   ///
   /// The [notFoundHandler] will be invoked for requests where no matching route
   /// was found. By default, a simple [Response.notFound] will be used instead.
-  Router({Handler notFoundHandler = _defaultNotFound})
-      : _notFoundHandler = notFoundHandler;
+  Router({
+    Handler notFoundHandler = _defaultNotFound,
+    RouteHandler? routeHandler,
+  })  : _notFoundHandler = notFoundHandler,
+        _routeHandler = routeHandler;
 
   /// Add [handler] for [verb] requests to [route].
   ///
@@ -135,14 +140,21 @@ class Router {
     if (verb == 'GET') {
       // Handling in a 'GET' request without handling a 'HEAD' request is always
       // wrong, thus, we add a default implementation that discards the body.
-      _routes.add(RouterEntry('HEAD', route, handler, middleware: _removeBody));
+      _routes.add(RouterEntry(
+        'HEAD',
+        route,
+        handler,
+        middleware: _removeBody,
+        routeHandler: _routeHandler,
+      ));
     }
-    _routes.add(RouterEntry(verb, route, handler));
+    _routes.add(RouterEntry(verb, route, handler, routeHandler: _routeHandler));
   }
 
   /// Handle all request to [route] using [handler].
   void all(String route, Function handler) {
-    _routes.add(RouterEntry('ALL', route, handler));
+    _routes
+        .add(RouterEntry('ALL', route, handler, routeHandler: _routeHandler));
   }
 
   /// Mount a handler below a prefix.

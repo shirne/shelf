@@ -78,8 +78,6 @@
 /// ```
 library shelf_router;
 
-import 'src/route.dart';
-import 'src/router.dart';
-
-export 'package:shelf_router/src/route.dart';
-export 'package:shelf_router/src/router.dart';
+export 'src/route.dart';
+export 'src/router.dart';
+export 'src/router_entry.dart';

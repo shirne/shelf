@@ -69,7 +69,9 @@ code.Method _buildRouterMethod({
             ..addExpression(
               code
                   .declareFinal('router')
-                  .assign(code.refer('Router').newInstance([])),
+                  .assign(code.refer('Router').newInstance([], {
+                    'routeHandler': code.refer('service').property('init'),
+                  })),
             )
             ..statements.addAll(handlers.map((h) => _buildAddHandlerCode(
                   router: code.refer('router'),

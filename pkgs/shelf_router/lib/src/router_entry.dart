@@ -16,6 +16,8 @@ import 'dart:async';
 
 import 'package:shelf/shelf.dart';
 
+import 'route.dart';
+
 /// Check if the [regexp] is non-capturing.
 bool _isNoCapture(String regexp) {
   // Construct a new regular expression matching anything containing regexp,
@@ -32,6 +34,7 @@ class RouterEntry {
 
   final String verb, route;
   final Function _handler;
+  final RouteHandler? _routeHandler;
   final Middleware _middleware;
 
   /// Expression that the request path must match.
@@ -46,13 +49,14 @@ class RouterEntry {
   List<String> get params => _params.toList(); // exposed for using generator.
 
   RouterEntry._(this.verb, this.route, this._handler, this._middleware,
-      this._routePattern, this._params);
+      this._routePattern, this._params, this._routeHandler);
 
   factory RouterEntry(
     String verb,
     String route,
     Function handler, {
     Middleware? middleware,
+    RouteHandler? routeHandler,
   }) {
     middleware = middleware ?? ((Handler fn) => fn);
 
@@ -77,7 +81,14 @@ class RouterEntry {
     final routePattern = RegExp('^$pattern\$');
 
     return RouterEntry._(
-        verb, route, handler, middleware, routePattern, params);
+      verb,
+      route,
+      handler,
+      middleware,
+      routePattern,
+      params,
+      routeHandler,
+    );
   }
 
   /// Returns a map from parameter name to value, if the path matches the
@@ -102,6 +113,10 @@ class RouterEntry {
     request = request.change(context: {'shelf_router/params': params});
 
     return await _middleware((request) async {
+      final result = await _routeHandler?.call(request, this);
+      if (result != null) {
+        return result;
+      }
       if (_handler is Handler || _params.isEmpty) {
         // ignore: avoid_dynamic_calls
         return await _handler(request) as Response;

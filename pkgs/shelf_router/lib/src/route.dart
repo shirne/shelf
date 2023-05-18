@@ -12,8 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
+
 import 'package:meta/meta.dart' show sealed;
+import 'package:shelf/shelf.dart';
 import 'router.dart';
+import 'router_entry.dart';
+
+typedef RouteHandler = FutureOr<Response?> Function(
+  Request request,
+  RouterEntry route,
+);
 
 /// Annotation for handler methods that requests should be routed when using
 /// package `shelf_router_generator`.
@@ -54,39 +63,41 @@ class Route {
   /// HTTP route for request routed to the annotated method.
   final String route;
 
+  final RouteHandler? before;
+
   /// Create an annotation that routes requests matching [verb] and [route] to
   /// the annotated method.
-  const Route(this.verb, this.route);
+  const Route(this.verb, this.route, this.before);
 
   /// Route all requests matching [route] to annotated method.
-  const Route.all(this.route) : verb = r'$all';
+  const Route.all(this.route, [this.before]) : verb = r'$all';
 
   /// Route `GET` requests matching [route] to annotated method.
-  const Route.get(this.route) : verb = 'GET';
+  const Route.get(this.route, [this.before]) : verb = 'GET';
 
   /// Route `HEAD` requests matching [route] to annotated method.
-  const Route.head(this.route) : verb = 'HEAD';
+  const Route.head(this.route, [this.before]) : verb = 'HEAD';
 
   /// Route `POST` requests matching [route] to annotated method.
-  const Route.post(this.route) : verb = 'POST';
+  const Route.post(this.route, [this.before]) : verb = 'POST';
 
   /// Route `PUT` requests matching [route] to annotated method.
-  const Route.put(this.route) : verb = 'PUT';
+  const Route.put(this.route, [this.before]) : verb = 'PUT';
 
   /// Route `DELETE` requests matching [route] to annotated method.
-  const Route.delete(this.route) : verb = 'DELETE';
+  const Route.delete(this.route, [this.before]) : verb = 'DELETE';
 
   /// Route `CONNECT` requests matching [route] to annotated method.
-  const Route.connect(this.route) : verb = 'CONNECT';
+  const Route.connect(this.route, [this.before]) : verb = 'CONNECT';
 
   /// Route `OPTIONS` requests matching [route] to annotated method.
-  const Route.options(this.route) : verb = 'OPTIONS';
+  const Route.options(this.route, [this.before]) : verb = 'OPTIONS';
 
   /// Route `TRACE` requests matching [route] to annotated method.
-  const Route.trace(this.route) : verb = 'TRACE';
+  const Route.trace(this.route, [this.before]) : verb = 'TRACE';
 
   /// Route `MOUNT` requests matching [route] to annotated method.
-  const Route.mount(String prefix)
+  const Route.mount(String prefix, [this.before])
       : verb = r'$mount',
         route = prefix;
 }
