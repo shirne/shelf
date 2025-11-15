@@ -1,3 +1,7 @@
+## 3.0.3-wip
+
+* Require Dart `^3.3.0`.
+
 ## 3.0.2
 
 * Added package topics to the pubspec file.

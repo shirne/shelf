@@ -1,3 +1,11 @@
+## 1.4.3-wip
+
+## 1.4.2
+
+* `Headers`: added the `fromEntries`  constructor.
+* Require `http_parser`: ^4.1.0
+* Require Dart `^3.4.0`.
+
 ## 1.4.1
 
 * Added package topics to the pubspec file.
@@ -272,7 +280,7 @@
 
 ## 0.6.1+2
 
-* `logRequests` outputs a better message a request has a query string.
+* `logRequests` outputs a better message if a request has a query string.
 
 ## 0.6.1+1
 

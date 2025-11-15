@@ -1,3 +1,7 @@
+## 1.1.5-wip
+
+* Require Dart `^3.3.0`.
+
 ## 1.1.4
 
 * Fixed a spelling issue in the pubspec file.

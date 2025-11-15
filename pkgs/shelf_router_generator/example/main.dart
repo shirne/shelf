@@ -43,7 +43,7 @@ class Service {
   }
 
   // Other routers can be mounted...
-  @Route.mount('/api/')
+  @Route.mount('/api')
   Router get _api => Api().router;
 
   // You can catch all verbs and use a URL-parameter with a regular expression
@@ -53,7 +53,7 @@ class Service {
 
   // The generated function _$ServiceRouter can be used to get a [Handler]
   // for this object. This can be used with [shelf_io.serve].
-  Handler get handler => _$ServiceRouter(this);
+  Handler get handler => _$ServiceRouter(this).call;
 }
 
 class Api {

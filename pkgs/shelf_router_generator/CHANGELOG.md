@@ -1,3 +1,30 @@
+## 1.1.3
+
+* Require `analyzer: ^8.1.1`
+* Require `build: ^4.0.0`
+* Require `build_config: ^1.2.0`
+* Require `source_gen: ^4.0.1`
+* Require `sdk: ^3.9.0`
+
+## 1.1.2
+
+* Require `analyzer: '>=7.4.0 <9.0.0'`
+* Require `build: ^3.0.0`
+* Require `build_config: ^1.1.0`
+* Require `source_gen: ^3.0.0`
+* Require `sdk: ^3.7.0`
+
+## 1.1.1
+
+* Support the latest `package:analyzer` and `package:source_gen`
+* Require `sdk: ^3.3.0`
+
+## 1.1.0
+
+* Require `sdk: ^3.0.0`
+* Require `analyzer: '>=4.6.0 <7.0.0'`
+* Remove trailing slash requirement when using `mount`.
+
 ## 1.0.6
 
 * Added package topics to the pubspec file.

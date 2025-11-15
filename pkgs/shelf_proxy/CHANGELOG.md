@@ -1,3 +1,12 @@
+## 1.0.5-wip
+
+* Require Dart `^3.3.0`.
+
+## 1.0.4
+
+* Require Dart `2.19`.
+* Allow `package:http` v1.0.0
+
 ## 1.0.3
 
 * Added package topics to the pubspec file.

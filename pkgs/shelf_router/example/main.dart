@@ -40,12 +40,12 @@ class Service {
 
     // Handlers can be asynchronous (returning `FutureOr` is also allowed).
     router.get('/wave', (Request request) async {
-      await Future<void>.delayed(Duration(milliseconds: 100));
+      await Future<void>.delayed(const Duration(milliseconds: 100));
       return Response.ok('_o/');
     });
 
     // Other routers can be mounted...
-    router.mount('/api/', Api().router);
+    router.mount('/api/', Api().router.call);
 
     // You can catch all verbs and use a URL-parameter with a regular expression
     // that matches everything to catch app.
@@ -53,7 +53,11 @@ class Service {
       return Response.notFound('Page not found');
     });
 
-    return router;
+    // Set up your Pipeline with any middleware you want to use and set the
+    // router as the handler.
+    return const Pipeline()
+        .addMiddleware(logRequests())
+        .addHandler(router.call);
   }
 }
 

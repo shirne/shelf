@@ -19,6 +19,8 @@
 /// (the default), streamed responses will be buffered to improve performance.
 /// If `false`, all chunks will be pushed over the wire as they're received.
 /// See [HttpResponse.bufferOutput] for more information.
+library;
+
 import 'dart:async';
 import 'dart:io';
 
@@ -72,7 +74,7 @@ Future<HttpServer> serve(
 
 /// Serve a [Stream] of [HttpRequest]s.
 ///
-/// [HttpServer] implements [Stream<HttpRequest>] so it can be passed directly
+/// [HttpServer] implements `Stream<HttpRequest>` so it can be passed directly
 /// to [serveRequests].
 ///
 /// Errors thrown by [handler] while serving a request will be printed to the

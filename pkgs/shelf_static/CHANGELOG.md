@@ -1,3 +1,8 @@
+## 1.1.3
+
+* Require Dart `^3.3.0`.
+* Update `package:mime` constraint to `>=1.0.0 <3.0.0`. 
+
 ## 1.1.2
 
 * Added package topics to the pubspec file.
