@@ -85,11 +85,6 @@ code.Method _buildRouterMethod({
     ..body = code.Block(
       (b) => b
         ..addExpression(
-          code
-              .declareFinal('router')
-              .assign(code.refer('Router').newInstance([])),
-        )
-        ..addExpression(
               code
                   .declareFinal('router')
                   .assign(code.refer('Router').newInstance([], {
